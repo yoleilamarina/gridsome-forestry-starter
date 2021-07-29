@@ -1,0 +1,38 @@
+# This is a basic workflow to help you get started with Actions
+
+name: Dev to master deploy
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the master branch
+  workflow_run:
+    branches: dev
+  schedule:
+    - cron: 0/30 * 1/1 * *
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+      
+      - name: Update git branch
+        # You may pin to the exact commit or the version.
+        # uses: Embraser01/update-git-branch-action@36713b64f99cf4f4752e4b7ede74be8f81eb7788
+        uses: Embraser01/update-git-branch-action@v1.0.0
+        with:
+          # Branch updated by this action
+          branch: dev
+          # Whether to use -f flag to update the branch
+          force: 1 # optional, default is 0
+          # Repo's Github token
+          githubToken: $SYNC_BRANCH_PERSONAL_TOKEN
